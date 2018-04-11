@@ -1,2 +1,10 @@
 furbnb-venv/
 startup.sh
+deploy.sh
+.DS_Store
+__pycache__
+*.sqlt
+build/
+package-lock.json
+yarn.lock
+
