@@ -1,5 +1,5 @@
 /*
- * FrrBnB Database Script
+ * FrrBnB Database Schema
  */
 
 /*
@@ -31,7 +31,7 @@ CREATE TABLE cities(
 	id INTEGER PRIMARY KEY,
 	name TEXT NOT NULL
 );
----Insert property types
+---Insert cities
 INSERT INTO cities VALUES (0, 'guelph');
 INSERT INTO cities VALUES (1, 'kitchener');
 INSERT INTO cities VALUES (2, 'waterloo');
@@ -74,19 +74,19 @@ INSERT INTO accounts VALUES (
 ---Pet types to host
 CREATE TABLE host_pet_types(
 	account_id INTEGER NOT NULL,
-	type_id INTEGER NOT NULL,
+	pet_type_id INTEGER NOT NULL,
 	FOREIGN KEY(account_id) REFERENCES accounts(id),
-	FOREIGN KEY(type_id) REFERENCES pet_types(id)
+	FOREIGN KEY(pet_type_id) REFERENCES pet_types(id)
 );
 
----Price
-CREATE TABLE price(
+---Price per night
+CREATE TABLE prices(
 	price_id INTEGER PRIMARY KEY,
 	account_id INTEGER NOT NULL,
-	type_id INTEGER NOT NULL,
-	price REAL DEFAULT NULL,
+	pet_type_id INTEGER NOT NULL,
+	price INTEGER DEFAULT NULL,
 	FOREIGN KEY(account_id) REFERENCES accounts(id),
-	FOREIGN KEY(type_id) REFERENCES pet_types(id)
+	FOREIGN KEY(pet_type_id) REFERENCES pet_types(id)
 );
 
 ---Photo
@@ -105,8 +105,8 @@ CREATE TABLE messages(
 	from_id INTEGER NOT NULL,
 	to_id INTEGER NOT NULL,
 	subject TEXT NOT NULL,
-	msg_date INTEGER NOT NULL,
-	msg TEXT NOT NULL,
+	sent_timestamp INTEGER NOT NULL,
+	content TEXT NOT NULL,
 	FOREIGN KEY(from_id) REFERENCES accounts(id),
 	FOREIGN KEY(to_id) REFERENCES accounts(id)
 );
@@ -115,11 +115,11 @@ CREATE TABLE messages(
 CREATE TABLE pets(
 	pet_id INTEGER PRIMARY KEY,
 	account_id INTEGER NOT NULL,
-	type_id INTEGER NOT NULL,
-	birthdate INTEGER DEFAULT NULL,
+	pet_type_id INTEGER NOT NULL,
+	birth_date TEXT DEFAULT NULL,
 	name TEXT DEFAULT NULL,
 	FOREIGN KEY(account_id) REFERENCES accounts(id),
-	FOREIGN KEY(type_id) REFERENCES pet_types(id)
+	FOREIGN KEY(pet_type_id) REFERENCES pet_types(id)
 );
 
 ---Bookings
@@ -127,9 +127,9 @@ CREATE TABLE bookings(
 	booking_id INTEGER PRIMARY KEY,
 	host_id INTEGER NOT NULL,
 	client_id INTEGER NOT NULL,
-	from_date INTEGER NOT NULL,
-	to_date INTEGER NOT NULL,
-	date_booked INTEGER NOT NULL,
+	from_date TEXT NOT NULL,
+	to_date TEXT NOT NULL,
+	creation_timestamp INTEGER NOT NULL,
 	confirmed INTEGER DEFAULT 0,
 	notes TEXT DEFAULT NULL,
 	FOREIGN KEY(host_id) REFERENCES accounts(id),
@@ -137,6 +137,7 @@ CREATE TABLE bookings(
 );
 
 ---Reviews
+--- rating: integer from 0 - 5 (inclusive)
 CREATE TABLE reviews(
 	review_id INTEGER PRIMARY KEY,
 	reviewer_id INTEGER NOT NULL,
