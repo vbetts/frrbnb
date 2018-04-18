@@ -10,7 +10,10 @@ import frrbnbApp from './reducers/reducers';
 
 
 const initialState = {
-	accounts : {isHost:false}
+	accounts : {
+		isHost:false, 
+		citySelection:null
+	}
 };
 
 const store = createStore(frrbnbApp, initialState)
