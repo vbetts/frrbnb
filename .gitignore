@@ -8,3 +8,6 @@ build/
 package-lock.json
 yarn.lock
 .elasticbeanstalk
+node_modules/
+*.sw*
+backups/
