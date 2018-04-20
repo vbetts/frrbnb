@@ -2,36 +2,45 @@ import React, { Component } from 'react';
 import PetCountSelect from './PetCountSelect';
 import PetSizeSelect from './PetSizeSelect';
 import PetTypeSelect from './PetTypeSelect';
-import PriceSlider from './PriceSlider';
-import IconButton from 'material-ui/IconButton';
-import Add from 'material-ui/svg-icons/content/add'
+import PriceInput from './PriceInput';
 import PropTypes from 'prop-types'
+import IconButton from 'material-ui/IconButton';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 class CreatePet extends Component {
 	render(){
 
-		const priceSlider = this.props.requiresPriceSlider ? 
-				<PriceSlider 
+		const price = this.props.requiresPriceInput ? 
+				<PriceInput 
 					petPrice={this.props.petPrice} 
-					minVal={0} 
-					maxVal={1000} 
-					handlePriceChange={this.props.handlePriceChange} /> : null
+					petIndex={this.props.petIndex}
+					handlePetChange={this.props.handlePetChange} /> : null
 
 		const count = this.props.requiresCount ?
-					<PetCountSelect 
-						handleCountChange={this.props.handleCountChange} 
+					<PetCountSelect
+						handlePetChange={this.props.handlePetChange} 
+						petIndex={this.props.petIndex}
 						petCount={this.props.petCount} /> : null
 		return(
 			<div key={this.props.petIndex}>
+				<span className="right">
+					<IconButton 
+						iconStyle={{width:24, height:24}}
+						style={{width:48, height:48, padding:12}}
+						onClick={(e)=>this.props.removePet(this.props.petIndex)}>
+						<Delete />
+					</IconButton>
+				</span>
 				{ count }
 				<PetTypeSelect
 					handlePetChange={this.props.handlePetChange}
-					petType={this.props.petType} />
+					petType={this.props.petType}
+					petIndex={this.props.petIndex}/>
 				<PetSizeSelect
-					handleSizeChange={this.props.handleSizeChange}
-					petSize={this.props.petSize} />
-				{ priceSlider }		
-				<span><IconButton onClick={this.props.incrementPetIndex}><Add /></IconButton></span>
+					handlePetChange={this.props.handlePetChange}
+					petSize={this.props.petSize}
+					petIndex={this.props.petIndex}/>
+				{ price }		
 			</div>
 		);
 	}
@@ -39,17 +48,14 @@ class CreatePet extends Component {
 
 CreatePet.propTypes = {
 	requiresCount			:	PropTypes.bool.isRequired,
-	requiresPriceSlider		:	PropTypes.bool.isRequired,
-	handlePriceChange		:	PropTypes.func.isRequired,
-	petPrice				:	PropTypes.number.isRequired,
-	handleCountChange		:	PropTypes.func.isRequired,
+	requiresPriceInput		:	PropTypes.bool.isRequired,
+	petPrice				:	PropTypes.string,
 	petCount				:	PropTypes.number,
-	handleSizeChange		:	PropTypes.func.isRequired,
 	petSize					:	PropTypes.number,
 	handlePetChange			:	PropTypes.func.isRequired,
+	removePet				:	PropTypes.func.isRequired,
 	petType					:	PropTypes.number,
 	petIndex				:	PropTypes.number,
-	incrementPetIndex		:	PropTypes.func
 }
 
 export default CreatePet

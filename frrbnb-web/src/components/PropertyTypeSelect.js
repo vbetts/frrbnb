@@ -7,6 +7,7 @@ class PropertyTypeSelect extends Component {
 	render(){
 		return(
 			<SelectField
+				errorText={this.props.errorText}
 				floatingLabelText="Property Type"
 				onChange={this.props.handlePropertyChange}
 				value={this.props.propertyType}>

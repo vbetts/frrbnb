@@ -21,6 +21,17 @@ body {
 	padding: 10px;
 }
 
+.priceSliderContainer {
+
+	width: 50% !important;
+	display: inline-block !important;
+}
+.priceSlider {
+	width: 50% !important;
+	display: inline-block !important;
+}
+.sliderText {
+}
 main {
 	padding: 10px;
 }

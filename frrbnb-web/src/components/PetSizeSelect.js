@@ -8,7 +8,7 @@ class PetSizeSelect extends Component {
 		return(
 			<SelectField
 				floatingLabelText="Pet Size"
-				onChange={this.props.handleSizeChange}
+				onChange={(e, key, payload) => this.props.handlePetChange(e, this.props.petIndex, payload, {petSize : payload})}
 				value={this.props.petSize}>
 				<MenuItem value={1} primaryText="Small" />
 				<MenuItem value={2} primaryText="Medium" />
@@ -19,7 +19,8 @@ class PetSizeSelect extends Component {
 }
 
 PetSizeSelect.propTypes = {
-	handleSizeChange	:	PropTypes.func.isRequired,
+	handlePetChange	:	PropTypes.func.isRequired,
+	petIndex			:	PropTypes.number.isRequired,
 	petSize				:	PropTypes.number
 }
 
