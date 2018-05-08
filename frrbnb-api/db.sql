@@ -52,7 +52,7 @@ CREATE TABLE accounts(
 	lon TEXT DEFAULT NULL,
 	description TEXT DEFAULT NULL,
 	is_host INTEGER DEFAULT 0,
-	property_type INTEGER NOT NULL,
+	property_type INTEGER DEFAULT NULL,
 	suspended INTEGER DEFAULT 0,
 	FOREIGN KEY(city_id) REFERENCES cities(id),
 	FOREIGN KEY(property_type) REFERENCES property_types(id)
