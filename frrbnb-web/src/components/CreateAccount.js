@@ -4,13 +4,20 @@ import CitySelect from './CitySelect';
 import PropertyTypeSelect from './PropertyTypeSelect';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
 
 const styles = {
 	addBtn: {
-		margin: 20
+		width: 72,
+		height: 72,
+		padding: 16
+	},
+	addBtnIcon : {
+		width: 36,
+		height: 36
 	},
 	paper:{
 		paddingLeft: 20,
@@ -43,7 +50,10 @@ class CreateAccount extends Component {
 			selectedCity			:	null,
 			selectedPropertyType	:	null,
 			createHost				:	false,
+			description				: 	"",
 			passwordErrMsg			:	"",
+			errResponse				:	false,
+			msgResponse				:	"",
 			emailRequired			:	REQUIRED_FIELD_MSG,
 			nameRequired			:	REQUIRED_FIELD_MSG,
 			passwordRequired		:	REQUIRED_FIELD_MSG,
@@ -146,6 +156,11 @@ class CreateAccount extends Component {
 		})
 	}
 
+	handleDescInput = (event, newValue) => {
+		this.setState({
+			description : newValue
+		})
+	}
 	addPet = () => {
 		let newPet = createNewPet()
 		this.setState({
@@ -164,6 +179,88 @@ class CreateAccount extends Component {
 		this.setState({
 			pets:petsArray
 		})
+	}
+
+	validateRequiredFields = () => {
+			let errMsg = []
+			if (this.state.emailAddress === ""){
+				errMsg.push("'Email address' is a required field")
+			}
+			if (this.state.name === ""){
+				errMsg.push("'Name' is a required field")	
+			}
+			if (this.state.password === ""){
+				errMsg.push("'Password' is a required field")	
+			}
+			if (this.state.selectedCity === null){
+				errMsg.push("'City' is a required field")	
+			}
+			if (this.state.passwordErrMsg !== ""){
+				errMsg.push("Password fields do not match")
+			}
+			if (this.state.createHost && this.state.selectedPropertyType === null){
+				errMsg.push("Host accounts must select a property type")	
+			}
+			if (errMsg.length > 0){
+				let msgIntro = "There is a problem with your form: "
+				if (errMsg.length > 1){
+					msgIntro = "There are problems with your form: "
+				}
+				let msg = errMsg.map((err, index) => <li key={index}>{err}</li>)
+				let retval = <div>{msgIntro}<ul>{msg}</ul></div>					
+				this.setState({
+					errResponse : true,
+					msgResponse : retval,
+				})
+				return false
+			} else {
+				this.setState({
+					errResponse : false,
+					msgResponse : "",
+				})
+				return true
+			}
+	}
+
+	submitForm = () => {
+			/*
+			emailAddress			:	"",
+			name					:	"",
+			password				:	"",
+			passwordRetype			:	"",
+			selectedCity			:	null,
+			selectedPropertyType	:	null,
+			createHost				:	false,
+			passwordErrMsg			:	"",
+			errResponse				:	false,
+			msgResponse				:	"",
+			*/
+		let formdata = {
+			email			:	this.state.emailAddress,
+			name			:	this.state.name,
+			password		:	this.state.password,
+			password_retype	:	this.state.passwordRetype,
+			city_id			:	this.state.selectedCity,
+			is_host			:	this.state.createHost,
+			description		:	this.state.description,
+			property_type	:	this.state.selectedPropertyType,
+			pets			:	this.state.pets
+		}
+
+
+		fetch("http://127.0.0.1:5000/create", {
+			method: 'POST',
+			body: JSON.stringify(formdata),
+			headers: new Headers({'Content-Type': 'application/json'})
+		})
+		.then(res => res.json())
+		.then(
+			(result) => {
+				console.log(result)	
+			},
+			(error) => {
+				console.log(error)
+			});
 	}
 
 	render() {
@@ -185,22 +282,44 @@ class CreateAccount extends Component {
 									petIndex={index}/>
 						</Paper>
 							</div>);
-			hostFields = <div>
+			hostFields = <div className="header">
 				<PropertyTypeSelect
 					errorText={this.state.propTypeRequired}
 					handlePropertyChange={this.handlePropertyChange}
 					propertyType={this.state.selectedPropertyType}/>
+					<br />
+					<TextField 
+						floatingLabelText="Property Description"
+						name="description"
+						value={this.state.description}
+						multiLine={true}
+						rows={4}
+						rowsMax={10}
+						onChange={this.handleDescInput}/>
+					<br />
 					<h5>Accepted Pets</h5>
 					{petJSX}
 					<span className="right">
-						<FloatingActionButton onClick={this.addPet} style={styles.addBtn}>
+						<IconButton onClick={this.addPet} style={styles.addBtn} iconStyle={styles.addBtnIcon}>
 				      		<ContentAdd />
-				    	</FloatingActionButton>
+				    	</IconButton>
 					</span>
 			</div>
 		}
+		const spanClass = this.state.errResponse ? "errorMsg" : "successMsg"
 		return (
-			<form className="createAccountForm">
+			<div>
+			<span className={spanClass}>{this.state.msgResponse}</span>
+			<form className="createAccountForm" 
+					onSubmit={e => {
+						e.preventDefault()
+						let validate = this.validateRequiredFields()
+						if (validate){
+							this.submitForm()
+						} else {
+							return;
+						}
+					}}>
 				<TextField
 					floatingLabelText="E-mail Address"
 					errorText={this.state.emailRequired}
@@ -242,7 +361,11 @@ class CreateAccount extends Component {
 					onToggle={this.handleHostToggle}/>
 
 				{ hostFields }
+				<div style={{marginTop: 20, paddingBottom: 50}}>
+				<RaisedButton primary={true} className="right" type="submit" label="submit" />
+				</div>
 			</form>
+			</div>
 		);
 	}
 }

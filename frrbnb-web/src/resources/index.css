@@ -21,6 +21,13 @@ body {
 	padding: 10px;
 }
 
+.errorMsg {
+	color : rgb(205, 0, 0);
+}
+
+.successMsg {
+	color: rgb(20, 160, 32);
+}
 .priceSliderContainer {
 
 	width: 50% !important;
@@ -34,4 +41,19 @@ body {
 }
 main {
 	padding: 10px;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.description::first-letter {
+	text-transform: uppercase;
+}
+
+.flexWrap {
+	display: -webkit-flex; /* Safari */
+	-webkit-flex-wrap: wrap; /* Safari 6.1+ */
+	display: flex;
+	flex-wrap: wrap;
 }
