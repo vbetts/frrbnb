@@ -1,4 +1,4 @@
-furbnb-venv/
+frrbnb-venv/
 startup.sh
 deploy.sh
 .DS_Store
@@ -11,3 +11,5 @@ yarn.lock
 node_modules/
 *.sw*
 backups/
+fetch.js
+yarn-error.log

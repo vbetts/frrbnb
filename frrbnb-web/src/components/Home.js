@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AccountCard from './AccountCard';
+import {FETCH_PATH} from '../config/fetch.js';
 
 class Home extends Component {
 	constructor(props, context){
@@ -9,8 +10,7 @@ class Home extends Component {
 		}
 	}
 	componentDidMount(){
-		//fetch("http://furbnb-api.us-east-1.elasticbeanstalk.com")
-		fetch("http://127.0.0.1:5000")
+		fetch(FETCH_PATH)
 		  .then(res => res.json())
 		  .then(
 			(result) => {

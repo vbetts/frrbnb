@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {FETCH_PATH} from '../config/fetch';
 import CreatePet from './CreatePet';
 import CitySelect from './CitySelect';
 import ResponseMsg from './ResponseMsg';
@@ -242,8 +243,7 @@ class CreateAccount extends Component {
 		}
 
 		
-		//fetch("http://furbnb-api.us-east-1.elasticbeanstalk.com/create", {
-		fetch("http://127.0.0.1:5000/create", {
+		fetch(FETCH_PATH+"/create", {
 			method: 'POST',
 			body: JSON.stringify(formdata),
 			headers: new Headers({'Content-Type': 'application/json'})
