@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PetCountSelect from './PetCountSelect';
-import PetSizeSelect from './PetSizeSelect';
+//import PetSizeSelect from './PetSizeSelect';
 import PetTypeSelect from './PetTypeSelect';
 import PriceInput from './PriceInput';
 import PropTypes from 'prop-types'
@@ -36,10 +36,6 @@ class CreatePet extends Component {
 					handlePetChange={this.props.handlePetChange}
 					petType={this.props.petType}
 					petIndex={this.props.petIndex}/>
-				<PetSizeSelect
-					handlePetChange={this.props.handlePetChange}
-					petSize={this.props.petSize}
-					petIndex={this.props.petIndex}/>
 				{ price }		
 			</div>
 		);
@@ -51,7 +47,6 @@ CreatePet.propTypes = {
 	requiresPriceInput		:	PropTypes.bool.isRequired,
 	petPrice				:	PropTypes.string,
 	petCount				:	PropTypes.number,
-	petSize					:	PropTypes.number,
 	handlePetChange			:	PropTypes.func.isRequired,
 	removePet				:	PropTypes.func.isRequired,
 	petType					:	PropTypes.number,

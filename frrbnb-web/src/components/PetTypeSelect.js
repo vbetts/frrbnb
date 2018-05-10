@@ -11,7 +11,9 @@ class PetTypeSelect extends Component {
 				onChange={(e, key, payload)=>this.props.handlePetChange(e, this.props.petIndex, payload, {petType : payload})}
 				value={this.props.petType}>
 				<MenuItem value={0} primaryText="Cat" />
-				<MenuItem value={1} primaryText="Dog" />
+				<MenuItem value={1} primaryText="Small dog (<15kg)" />
+				<MenuItem value={2} primaryText="Medium dog (15kg - 30kg)" />
+				<MenuItem value={3} primaryText="Large dog (>30kg)" />
 			</SelectField>
 		);
 	}

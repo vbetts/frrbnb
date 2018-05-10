@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CreatePet from './CreatePet';
 import CitySelect from './CitySelect';
+import ResponseMsg from './ResponseMsg';
 import PropertyTypeSelect from './PropertyTypeSelect';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
@@ -35,7 +36,6 @@ function createNewPet(){
 			petPrice				:	"0",
 			petCount				:	null,
 			petType					:	null,
-			petSize					:	null
 		}
 }
 class CreateAccount extends Component {
@@ -60,6 +60,7 @@ class CreateAccount extends Component {
 			cityRequired			:	REQUIRED_FIELD_MSG,
 			propTypeRequired		:	REQUIRED_FIELD_MSG,
 			pets					:	[firstPet,],
+
 		}
 
 		this.handleEmailInput = this.handleEmailInput.bind(this)
@@ -83,6 +84,7 @@ class CreateAccount extends Component {
 	}
 
 	handleEmailInput = (event, newValue) => {
+		newValue = newValue.trim()
 		let errmsg = this.checkErrMsg(newValue)
 		this.setState({
 			emailAddress : newValue,
@@ -91,6 +93,7 @@ class CreateAccount extends Component {
 	}
 
 	handleNameInput = (event, newValue) => {
+		newValue = newValue.trim()
 		let errmsg = this.checkErrMsg(newValue)
 		this.setState({
 			name : newValue,
@@ -99,6 +102,7 @@ class CreateAccount extends Component {
 	}
 
 	handlePassword = (event, newValue) => {
+		newValue = newValue.trim()
 		let errmsg = this.checkErrMsg(newValue)
 		this.setState({
 			passwordRequired : errmsg,
@@ -107,6 +111,7 @@ class CreateAccount extends Component {
 	}
 
 	handlePasswordRetype = (event, newValue) => {
+		newValue = newValue.trim()
 		if (newValue === this.state.password){
 			this.setState({
 				passwordRetype : newValue,
@@ -157,6 +162,7 @@ class CreateAccount extends Component {
 	}
 
 	handleDescInput = (event, newValue) => {
+		newValue = newValue.trim()
 		this.setState({
 			description : newValue
 		})
@@ -223,18 +229,6 @@ class CreateAccount extends Component {
 	}
 
 	submitForm = () => {
-			/*
-			emailAddress			:	"",
-			name					:	"",
-			password				:	"",
-			passwordRetype			:	"",
-			selectedCity			:	null,
-			selectedPropertyType	:	null,
-			createHost				:	false,
-			passwordErrMsg			:	"",
-			errResponse				:	false,
-			msgResponse				:	"",
-			*/
 		let formdata = {
 			email			:	this.state.emailAddress,
 			name			:	this.state.name,
@@ -247,7 +241,8 @@ class CreateAccount extends Component {
 			pets			:	this.state.pets
 		}
 
-
+		
+		//fetch("http://furbnb-api.us-east-1.elasticbeanstalk.com/create", {
 		fetch("http://127.0.0.1:5000/create", {
 			method: 'POST',
 			body: JSON.stringify(formdata),
@@ -256,10 +251,16 @@ class CreateAccount extends Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
-				console.log(result)	
+				this.setState({
+					errResponse: result.error,
+					msgResponse: result.messages
+				})	
 			},
 			(error) => {
-				console.log(error)
+				this.setState({
+					errResponse: true,
+					msgResponse: error
+				})	
 			});
 	}
 
@@ -276,7 +277,6 @@ class CreateAccount extends Component {
 									requiresCount={false}
 									requiresPriceInput={true}
 									petPrice={petdata.petPrice}
-									petSize={petdata.petSize}		
 									handlePetChange={this.handlePetChange}
 									petType={petdata.petType}
 									petIndex={index}/>
@@ -306,10 +306,9 @@ class CreateAccount extends Component {
 					</span>
 			</div>
 		}
-		const spanClass = this.state.errResponse ? "errorMsg" : "successMsg"
 		return (
 			<div>
-			<span className={spanClass}>{this.state.msgResponse}</span>
+			<ResponseMsg error={this.state.errResponse} msg={this.state.msgResponse} />
 			<form className="createAccountForm" 
 					onSubmit={e => {
 						e.preventDefault()
