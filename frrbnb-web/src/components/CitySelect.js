@@ -8,7 +8,7 @@ class CitySelect extends Component {
 		return(
 			<SelectField
 				floatingLabelText="City"
-				onChange={this.props.handleCityChange}
+				onChange={(e, key, payload)=>this.props.handleCityChange(e, key, payload, {selectedCity : payload})}
 				errorText={this.props.errorText}
 				value={this.props.selectedCity}>
 				<MenuItem value={0} primaryText="Guelph" />

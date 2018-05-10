@@ -127,7 +127,7 @@ class CreateAccount extends Component {
 		}
 	}
 
-	handleCityChange = (event, key, payload) => {
+	handleCityChange = (event, key, payload, update) => {
 		let errmsg = this.checkErrMsg(payload)
 		this.setState({
 			cityRequired : errmsg,
@@ -135,7 +135,7 @@ class CreateAccount extends Component {
 		})
 	}
 
-	handlePropertyChange = (event, key, payload) =>{
+	handlePropertyChange = (event, key, payload, update) =>{
 		let errmsg = this.checkErrMsg(payload)
 		this.setState({
 			selectedPropertyType : payload,

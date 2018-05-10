@@ -9,7 +9,7 @@ class PropertyTypeSelect extends Component {
 			<SelectField
 				errorText={this.props.errorText}
 				floatingLabelText="Property Type"
-				onChange={this.props.handlePropertyChange}
+				onChange={(e, key, payload)=>this.props.handlePropertyChange(e, key, payload, {propertyType : payload})}
 				value={this.props.propertyType}>
 				<MenuItem value={0} primaryText="Rural" />
 				<MenuItem value={1} primaryText="Urban" />
