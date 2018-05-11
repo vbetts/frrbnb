@@ -19,7 +19,11 @@ class Home extends Component {
 		let searchTerms = {}
 		for (var x in searchTermsUpdate){
 			if (x !== "accountlist"){
-				searchTerms[x] = searchTermsUpdate[x]
+				if (x === "selectedCity"){
+					searchTerms["city_id"] = searchTermsUpdate[x]
+				} else {
+					searchTerms[x] = searchTermsUpdate[x]
+				}
 			}
 		}
 
@@ -32,7 +36,7 @@ class Home extends Component {
 		  .then(
 			(result) => {
 				this.setState({
-					accountlist	:	result
+					accountlist	:	result.accounts
 				})
 			},
 			// Note: it's important to handle errors here
@@ -49,7 +53,7 @@ class Home extends Component {
 		  .then(
 			(result) => {
 				this.setState({
-					accountlist	:	result
+					accountlist	:	result.accounts
 				})
 			},
 			// Note: it's important to handle errors here
