@@ -66,7 +66,8 @@ class Home extends Component {
 	}
   render() {
 	let accountJSX = this.state.accountlist.map((account, index) =>
-		<AccountCard 	key={account.id} 
+		<AccountCard 	key={account.id}
+						account_id={account.id}
 						city={account.city} 
 						property_type={account.property_type} 
 						name={account.name} 
