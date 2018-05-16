@@ -73,6 +73,7 @@ INSERT INTO accounts VALUES (
 );
 ---Pet types to host
 CREATE TABLE host_pet_types(
+	host_pet_id INTEGER PRIMARY KEY,
 	account_id INTEGER NOT NULL,
 	pet_type_id INTEGER NOT NULL,
 	FOREIGN KEY(account_id) REFERENCES accounts(id),
@@ -83,10 +84,10 @@ CREATE TABLE host_pet_types(
 CREATE TABLE prices(
 	price_id INTEGER PRIMARY KEY,
 	account_id INTEGER NOT NULL,
-	pet_type_id INTEGER NOT NULL,
+	host_pet_id INTEGER NOT NULL,
 	price INTEGER DEFAULT NULL,
 	FOREIGN KEY(account_id) REFERENCES accounts(id),
-	FOREIGN KEY(pet_type_id) REFERENCES pet_types(id)
+	FOREIGN KEY(host_pet_id) REFERENCES host_pet_types(host_pet_id)
 );
 
 ---Photo
