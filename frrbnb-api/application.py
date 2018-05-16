@@ -1,7 +1,7 @@
 from flask import request, url_for, g
 from flask_api import FlaskAPI, status, exceptions
 from flask_cors import CORS
-from validation import CITIES, PROPERTY_TYPES, PET_TYPES, validate_required_fields, validate_search, validate_pets, format_msgs, is_host
+from validation import validate_required_fields, validate_search, validate_pets, format_msgs, is_host
 from handle_data import query_db, get_host_accounts, get_account_by_id, get_host_pets, get_account_pets, get_account_bookings 
 
 import sqlite3

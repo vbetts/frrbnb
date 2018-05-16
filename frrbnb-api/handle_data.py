@@ -1,11 +1,7 @@
 from flask import request, url_for, g
 from flask_api import FlaskAPI, status, exceptions
-from flask_cors import CORS
-from validation import CITIES, PROPERTY_TYPES, PET_TYPES, is_host
+from constants import CITIES, PROPERTY_TYPES, PET_TYPES
 import sqlite3
-
-application = FlaskAPI(__name__)
-CORS(application)
 
 # Constants
 DATABASE = './frrbnb.sqlt'
