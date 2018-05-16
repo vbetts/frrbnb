@@ -96,9 +96,9 @@ def profile():
     if data is None:
         return {}
     account_data = get_account_by_id(data["account_id"])
-    host_pets = get_host_pets(account_id)
-    account_pets = get_account_pets(account_id)
-    account_bookings = get_account_bookings(account_id)
+    host_pets = get_host_pets(data["account_id"])
+    account_pets = get_account_pets(data["account_id"])
+    account_bookings = get_account_bookings(data["account_id"])
     return {"error": False, 
             "messages": "", 
             "account_data": account_data, 

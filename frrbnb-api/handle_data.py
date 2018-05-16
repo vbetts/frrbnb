@@ -86,11 +86,11 @@ def get_account_by_id(account_id):
         :return     single account matching account_id argument
         :rtype      dict
     """
-    account = []
     if account_id is not None:
         sql = "SELECT * FROM accounts WHERE accounts.id=?"
         args = (account_id,)
-        account = account.append(query_db(sql, args, True, False))
+        account = query_db(sql, args, True, False)
+        account = [account,]
         formatted = format_accounts(account)
         return formatted[0]
     return account
@@ -171,8 +171,10 @@ def format_accounts(accounts):
         :return     host accounts formatted for return to the client side
         :rtype      array of dicts
     """
-    for account in accounts:
-        account['city'] = CITIES[account['city_id']] 
-        account['property_type'] = PROPERTY_TYPES[account['property_type']]
-    return accounts
+    if accounts is not None:
+        for account in accounts:
+            account['city'] = CITIES[account['city_id']] 
+            account['property_type'] = PROPERTY_TYPES[account['property_type']]
+        return accounts
+    return []
 
