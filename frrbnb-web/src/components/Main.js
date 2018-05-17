@@ -4,6 +4,7 @@ import CreateAccount from './CreateAccount'
 import Home from './Home'
 import Login from './Login'
 import Profile from './Profile'
+import NoMatch from './NoMatch'
 
 const Main = () => (
 	  <main>
@@ -12,6 +13,7 @@ const Main = () => (
 	      <Route path='/create' component={CreateAccount}/>
 	      <Route path='/login' component={Login}/>
 	      <Route path='/profile/:account_id' component={Profile}/>
+			<Route component={NoMatch}/>
 	    </Switch>
 	  </main>
 )
