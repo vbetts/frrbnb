@@ -1,12 +1,15 @@
-from flask import request, url_for, g
+from flask import request, session, url_for, g
 from flask_api import FlaskAPI, status, exceptions
 from flask_cors import CORS
-from validation import validate_required_fields, validate_search, validate_pets, format_msgs, is_host
-from handle_data import query_db, get_host_accounts, get_account_by_id, get_host_pets, get_account_pets, get_account_bookings 
-
+from validation import *
+from handle_data import * 
+from secrets import KEY
 import sqlite3
 
 application = FlaskAPI(__name__)
+
+application.secret_key = KEY
+
 CORS(application)
 
 @application.teardown_appcontext
@@ -19,7 +22,7 @@ def close_connection(exception):
 @application.route('/')
 def hello():
     accounts = get_host_accounts()
-    return {"accounts": accounts}
+    return {"accounts": accounts,}
 
 @application.route('/create', methods=['POST', 'GET', 'OPTIONS'])
 def create_account():
