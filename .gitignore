@@ -13,3 +13,6 @@ node_modules/
 backups/
 fetch.js
 yarn-error.log
+sampledata.sql
+secrets.py
+reset_db.sh
