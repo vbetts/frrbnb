@@ -42,7 +42,7 @@ def create_account():
     if len(msgs) > 0:
         message_str = format_msgs(msgs)
         return {"error" : True, "messages" : message_str}
-    
+
     args = email, name, password, city_id, desc, is_host, property_type
 
     sql = "INSERT INTO accounts(email, name, password, city_id, lat, lon, description, is_host, property_type) VALUES(?, ?, ?, ?, null, null, ?, ?, ?)"
@@ -60,7 +60,7 @@ def create_account():
                 price = int(pet["petPrice"]) * 100
                 pet_sql = "INSERT INTO host_pet_types(account_id, pet_type_id) VALUES(?, ?)"
                 pet_args = account_id, pet_type_id
-                
+
                 host_pet_id = query_db(pet_sql, pet_args, False, True)
 
                 if host_pet_id:
@@ -109,5 +109,68 @@ def profile():
             "account_pets": account_pets, 
             "bookings": account_bookings}
 
+@application.route('/login', methods=['POST', 'GET', 'OPTIONS'])
+def login():
+    data = request.get_json()
+    if data is None:
+        return {}
+    if data["login_check"] == True:
+        if "userid" in session:
+            userdata = get_account_by_id(session["userid"])
+            if userdata is not None:
+                return {"errResponse": False,
+                        "msgResponse": "",
+                        "loggedIn": True,
+                        "loggedInUsername": userdata["name"],
+                        "loggedInId": userdata["id"]}
+            else:
+                logout()
+                return {"errResponse": True,
+                        "msgResponse": "There was an error. You have been logged out.",
+                        "loggedIn": False,
+                        "loggedInUsername": None,
+                        "loggedInId": None}
+
+        else:
+            return {"errResponse": False,
+                    "msgResponse": "",
+                    "loggedIn": False,
+                    "loggedInUsername": None,
+                    "loggedInId": None}
+            userdata = get_account_by_email(data["email"])
+    if userdata is not None:
+        if userdata["password"] == data["password"]:
+            session['userid'] = userdata['id']
+            return {"errResponse": False,
+                    "msgResponse": "",
+                    "loggedIn": True,
+                    "loggedInUsername": userdata["name"],
+                    "loggedInId": userdata["id"]}
+        else:
+            return {"errResponse": True,
+                    "msgResponse": "Password does not match email address",
+                    "loggedIn": False,
+                    "loggedInUsername": None,
+                    "loggedInId": None}
+
+    logout()
+    return {"errResponse": True,
+            "msgResponse": "There was an error. You have been logged out.",
+            "loggedIn": False,
+            "loggedInUsername": None,
+            "loggedInId": None}
+
+@application.route('/logout', methods=['POST', 'GET', 'OPTIONS'])
+def logout():
+    data = request.get_json()
+    if data is None:
+        return {}
+    session.pop('userid', None)
+    return {"error": False,
+            "messages": "",
+            "loggedIn": False,
+            "loggedInUsername": None,
+            "loggedInId": None}
+
 if __name__ == "__main__":
-     application.run()
+    application.run()

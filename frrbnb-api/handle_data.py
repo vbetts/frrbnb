@@ -1,4 +1,4 @@
-from flask import request, url_for, g
+from flask import request, session, url_for, g
 from flask_api import FlaskAPI, status, exceptions
 from constants import CITIES, PROPERTY_TYPES, PET_TYPES
 import sqlite3
@@ -49,6 +49,22 @@ def query_db(query, args=(), one=False, insert=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+"""
+def login_check:
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'You are not logged in'
+
+def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
+"""
 
 def get_host_accounts(city=None, pet_type=None, property_type=None):
     """
@@ -93,7 +109,25 @@ def get_account_by_id(account_id):
         account = [account,]
         formatted = format_accounts(account)
         return formatted[0]
-    return account
+    return None
+
+
+def get_account_by_email(email):
+    """
+        Generates sql and runs dbquery to retrieve account data for host accounts
+        :param      email:      unique email address
+        :type       email:      string
+        :return     single account matching email argument
+        :rtype      dict
+    """
+    if email is not None:
+        sql = "SELECT * FROM accounts WHERE accounts.email=?"
+        args = (email,)
+        account = query_db(sql, args, True, False)
+        account = [account,]
+        formatted = format_accounts(account)
+        return formatted[0]
+    return None
 
 def get_host_pets(account_id):
     """

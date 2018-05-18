@@ -9,31 +9,19 @@ const style = {
 };
 
 class Header extends Component {
-	constructor(props, context){
-		super(props, context)
-		this.state={
-			modalOpen: false,
-		}
-
-		this.handleModalOpen = this.handleModalOpen.bind(this)
-		this.handleModalClose = this.handleModalClose.bind(this)
-	}
-	
-	//get prop to close modal if login succeeds
-	
-	handleModalOpen(){
-		this.setState({
-			modalOpen: true,
-		});
-	}
-
-	handleModalClose(){
-		this.setState({
-			modalOpen: false,
-		});
-	}
-
 	render(){
+		let modal = null
+		let login_btn = null
+		if (this.props.login.loggedIn){
+			login_btn = <RaisedButton label="Log Out" onClick={this.props.handleLogout}/>
+		} else {
+			login_btn = <RaisedButton label="Log In" onClick={this.props.openModal}/>
+			modal= <Login 
+					open={this.props.open} 
+					handleClose={this.props.closeModal}
+					handleOpen={this.props.openModal}
+					handleLogin={this.props.handleLogin}/>	
+		}
 		return (
 			<div className="header">
 				<div className="left">
@@ -47,16 +35,12 @@ class Header extends Component {
 					<Link to='/create'>
 						<RaisedButton label="Create Account" style={style}/>
 					</Link>
-					<RaisedButton label="Log In" onClick={this.props.openModal}/>
+					{login_btn}
 					<Link to='/help'>
 						<RaisedButton label="Help" style={style}/>
 					</Link>
 				</div>
-				<Login 
-					open={this.props.open} 
-					handleClose={this.props.closeModal}
-					handleOpen={this.props.openModal}
-					handleLogin={this.props.handleLogin}/>	
+				{modal}
 			</div>
 		)
 	}
