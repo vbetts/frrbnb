@@ -36,8 +36,8 @@ class Header extends Component {
 						<RaisedButton label="Create Account" style={style}/>
 					</Link>
 					{login_btn}
-					<Link to='/help'>
-						<RaisedButton label="Help" style={style}/>
+					<Link to='/about'>
+						<RaisedButton label="About" style={style}/>
 					</Link>
 				</div>
 				{modal}

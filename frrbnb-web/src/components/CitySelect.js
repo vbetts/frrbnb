@@ -11,10 +11,10 @@ class CitySelect extends Component {
 				onChange={(e, key, payload)=>this.props.handleCityChange(e, key, payload, {selectedCity : payload})}
 				errorText={this.props.errorText}
 				value={this.props.selectedCity}>
-				<MenuItem value={0} primaryText="Guelph" />
-				<MenuItem value={1} primaryText="Kitchener" />
-				<MenuItem value={2} primaryText="Waterloo" />
-				<MenuItem value={3} primaryText="Cambridge" />
+				<MenuItem value={0} primaryText="Victoria" />
+				<MenuItem value={1} primaryText="Sooke" />
+				<MenuItem value={2} primaryText="Nanaimo" />
+				<MenuItem value={3} primaryText="Tofino" />
 			</SelectField>
 		);
 	}

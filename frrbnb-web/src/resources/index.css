@@ -10,7 +10,10 @@ body {
 .left {
 	float: left;
 }
-
+.center {
+	width: fit-content;
+	margin: auto;
+}
 .clearfix {
 	overflow: auto;
 }
@@ -56,4 +59,33 @@ main {
 	-webkit-flex-wrap: wrap; /* Safari 6.1+ */
 	display: flex;
 	flex-wrap: wrap;
+}
+
+img.med {
+	width: 200px;
+	margin: 18px;
+}
+img.sm {
+	width: 100px;
+	margin: 18px;
+}
+
+p.sm {
+	font-size: 75%;
+}
+#aboutBlurb {
+	width: 70%;
+	text-align: justify;
+	margin: 18px auto 18px auto;
+}
+#aboutDemo {
+	width: 70%;
+	margin: auto;
+	align: center;
+	padding: 16px;
+	margin-top: 45px;
+	border: 2px solid rgb(0, 188, 212);
+}
+#aboutDemo p {
+	text-align: center;
 }

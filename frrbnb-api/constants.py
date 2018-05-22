@@ -1,8 +1,8 @@
 CITIES = {
-    0 : "guelph",
-    1 : "kitchener",
-    2 : "waterloo",
-    3 : "cambridge"
+    0 : "victoria",
+    1 : "sooke",
+    2 : "nanaimo",
+    3 : "tofino"
 }
 
 PROPERTY_TYPES = {

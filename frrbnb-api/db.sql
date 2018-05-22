@@ -32,10 +32,10 @@ CREATE TABLE cities(
 	name TEXT NOT NULL
 );
 ---Insert cities
-INSERT INTO cities VALUES (0, 'guelph');
-INSERT INTO cities VALUES (1, 'kitchener');
-INSERT INTO cities VALUES (2, 'waterloo');
-INSERT INTO cities VALUES (3, 'cambridge');
+INSERT INTO cities VALUES (0, 'victoria');
+INSERT INTO cities VALUES (1, 'sooke');
+INSERT INTO cities VALUES (2, 'nanaimo');
+INSERT INTO cities VALUES (3, 'tofino');
 
 /**********************************************************************/
 /*
