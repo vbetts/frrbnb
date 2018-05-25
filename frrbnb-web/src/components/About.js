@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Milo from '../resources/images/milo2.jpg'
 import Cats from '../resources/images/cats.jpg'
 import Ppgrl from '../resources/images/ppgirl.png'
-
+import Logo from '../resources/images/logo.png';
 class About extends Component {
 	render(){
 		return (<div>
@@ -17,6 +17,9 @@ class About extends Component {
 					in another animal lover's home instead of staying in a noisy, stressful and isolating kennel 
 					environment. Make a profile, browse reviews, and book Fido or Fluffy a stay with a host near you the 
 					next time you're out of town.</p>
+				<div className="center">
+					<img className="med" src={Logo} alt="frrbnb" />
+				</div>
 				<div id="aboutDemo">
 						<div className="center">
 						<img className="sm" src={Ppgrl} alt=""/>

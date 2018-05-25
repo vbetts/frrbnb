@@ -11,10 +11,11 @@ class App extends Component {
 							loggedIn			:	false,
 							loggedInUsername	:	null,
 							loggedInId			:	null,
+							bookingChanges		: 	false,
 							errResponse			: 	false,
 							msgResponse			:	""
 						},
-			open	:	false
+			open	:	false,
 		}
 
 		this.handleLogin = this.handleLogin.bind(this)
@@ -33,8 +34,13 @@ class App extends Component {
 		})
 		.then(res => res.json())
 		.then(
-			(result) => {},
-			(error) => {}
+			(result) => {
+				this.setState({login: result})
+				this.closeModal()
+			},
+			(error) => {
+				console.log(error)
+			}
 		);
 	}
 
@@ -51,7 +57,7 @@ class App extends Component {
 	}
 
 	handleLogin(event, email, password){
-		let data = {"login_check" : false}
+		let data = {"login_check" : false, "email":email, "password":password}
 		//check that email or password are not undefined or empty
 		fetch(FETCH_PATH+"/login", {
 			method: "POST",
@@ -61,9 +67,12 @@ class App extends Component {
 		.then(res => res.json())
 		.then(
 			(result) => {
+				this.setState({login: result})
 				this.closeModal()
 			},
-			(error) => {}
+			(error) => {
+				console.log(error)
+			}
 		);
 	}
 	handleLogout(event){
@@ -74,8 +83,12 @@ class App extends Component {
 		})
 		.then(res => res.json())
 		.then(
-			(result) => {},
-			(error) => {}
+			(result) => {
+				this.setState({login: result})
+			},
+			(error) => {
+				console.log(error)
+			}
 		);
 	}
 	render() {

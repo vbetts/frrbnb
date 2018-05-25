@@ -1,6 +1,8 @@
 from flask import request, session, url_for, g
 from flask_api import FlaskAPI, status, exceptions
 from flask_cors import CORS
+import time
+from werkzeug.security import generate_password_hash, check_password_hash
 from validation import *
 from handle_data import * 
 from secrets import KEY
@@ -43,12 +45,17 @@ def create_account():
         message_str = format_msgs(msgs)
         return {"error" : True, "messages" : message_str}
 
-    args = email, name, password, city_id, desc, is_host, property_type
+    hashed_pw = generate_password_hash(password)
+    login_time = int(time.time())
+    args = email, name, hashed_pw, city_id, desc, is_host, property_type, login_time
 
-    sql = "INSERT INTO accounts(email, name, password, city_id, lat, lon, description, is_host, property_type) VALUES(?, ?, ?, ?, null, null, ?, ?, ?)"
+    sql = "INSERT INTO accounts(email, name, password, city_id, lat, lon, description, is_host, property_type, last_login) VALUES(?, ?, ?, ?, null, null, ?, ?, ?, ?)"
     account_id = query_db(sql, args, False, True)
 
     if account_id:
+        if data["photo"] is not None:
+            photo_sql = "INSERT INTO photos(account_id, img_path) values(?, ?)"
+            photo_id = query_db(photo_sql, (account_id, data["photo"]), False, True)
         if is_host == False:
             successmsg = "Successfully created account for {}!"
             successmsg = successmsg.format(name)
@@ -70,7 +77,7 @@ def create_account():
                     if price_id:
                         successmsg = "Successfully created host account for {}!"
                         successmsg = successmsg.format(name)
-                        return { "error" : False, "messages" : successmsg } 
+                        return { "error" : False, "messages" : successmsg }
 
     else:
         return {"error" : True, "messages" : "There was an error creating your account. Please try again."}
@@ -102,11 +109,13 @@ def profile():
     host_pets = get_host_pets(data["account_id"])
     account_pets = get_account_pets(data["account_id"])
     account_bookings = get_account_bookings(data["account_id"])
+    account_photos = get_account_photos(data["account_id"])
     return {"error": False, 
             "messages": "", 
             "account_data": account_data, 
             "host_pets": host_pets, 
-            "account_pets": account_pets, 
+            "account_pets": account_pets,
+            "account_photos": account_photos,
             "bookings": account_bookings}
 
 @application.route('/login', methods=['POST', 'GET', 'OPTIONS'])
@@ -117,48 +126,60 @@ def login():
     if data["login_check"] == True:
         if "userid" in session:
             userdata = get_account_by_id(session["userid"])
+            bookings = get_account_bookings(session["userid"], True)
             if userdata is not None:
-                return {"errResponse": False,
-                        "msgResponse": "",
-                        "loggedIn": True,
-                        "loggedInUsername": userdata["name"],
-                        "loggedInId": userdata["id"]}
+                return {"errResponse"           : False,
+                        "msgResponse"           : "",
+                        "loggedIn"              : True,
+                        "loggedInUsername"      : userdata["name"],
+                        "loggedInId"            : userdata["id"],
+                        "bookingChanges"   : bookings}
             else:
                 logout()
-                return {"errResponse": True,
-                        "msgResponse": "There was an error. You have been logged out.",
-                        "loggedIn": False,
-                        "loggedInUsername": None,
-                        "loggedInId": None}
+                return {"errResponse"           : True,
+                        "msgResponse"           : "There was an error. You have been logged out.",
+                        "loggedIn"              : False,
+                        "loggedInUsername"      : None,
+                        "loggedInId"            : None,
+                        "bookingChanges"   : None}
 
         else:
-            return {"errResponse": False,
-                    "msgResponse": "",
-                    "loggedIn": False,
-                    "loggedInUsername": None,
-                    "loggedInId": None}
-            userdata = get_account_by_email(data["email"])
+            return {"errResponse"           : False,
+                    "msgResponse"           : "",
+                    "loggedIn"              : False,
+                    "loggedInUsername"      : None,
+                    "loggedInId"            : None,
+                    "bookingChanges"   : None}
+    userdata = get_account_by_email(data["email"])
     if userdata is not None:
-        if userdata["password"] == data["password"]:
+        if check_password_hash(userdata["password"], data["password"]):
             session['userid'] = userdata['id']
-            return {"errResponse": False,
-                    "msgResponse": "",
-                    "loggedIn": True,
-                    "loggedInUsername": userdata["name"],
-                    "loggedInId": userdata["id"]}
+            login_time = int(time.time())
+            login_sql = "UPDATE accounts SET last_login=? WHERE id=?"
+            login_args = login_time, userdata["id"]
+            login_update = query_db(login_sql, login_args)
+            bookings = get_account_bookings(userdata["id"], True)
+            return {"errResponse"           : False,
+                    "msgResponse"           : "",
+                    "loggedIn"              : True,
+                    "loggedInUsername"      : userdata["name"],
+                    "loggedInId"            : userdata["id"],
+                    "bookingChanges"   : bookings}
         else:
-            return {"errResponse": True,
-                    "msgResponse": "Password does not match email address",
-                    "loggedIn": False,
-                    "loggedInUsername": None,
-                    "loggedInId": None}
+            return {"errResponse"           : True,
+                    "msgResponse"           : "Password does not match email address",
+                    "loggedIn"              : False,
+                    "loggedInUsername"      : None,
+                    "loggedInId"            : None,
+                    "bookingChanges"   : None}
 
     logout()
-    return {"errResponse": True,
-            "msgResponse": "There was an error. You have been logged out.",
-            "loggedIn": False,
-            "loggedInUsername": None,
-            "loggedInId": None}
+    return {"errResponse"           : True,
+            "msgResponse"           : "There was an error. You have been logged out.",
+            "loggedIn"              : False,
+            "loggedInUsername"      : None,
+            "loggedInId"            : None,
+            "bookingChanges"   : None}
 
 @application.route('/logout', methods=['POST', 'GET', 'OPTIONS'])
 def logout():

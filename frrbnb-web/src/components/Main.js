@@ -5,6 +5,7 @@ import Home from './Home'
 import Login from './Login'
 import Profile from './Profile'
 import About from './About'
+import Bookings from './Bookings'
 import NoMatch from './NoMatch'
 
 const Main = () => (
@@ -15,6 +16,7 @@ const Main = () => (
 	      <Route path='/login' component={Login}/>
 	      <Route path='/profile/:account_id' component={Profile}/>
 	      <Route path='/about' component={About}/>
+	      <Route path='/bookings/:account_id' component={Bookings}/>
 			<Route component={NoMatch}/>
 	    </Switch>
 	  </main>

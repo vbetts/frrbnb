@@ -17,4 +17,3 @@ PET_TYPES = {
     2 : "medium dog", 
     3 : "large dog"
 }
-

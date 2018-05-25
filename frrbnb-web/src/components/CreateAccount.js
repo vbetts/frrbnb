@@ -39,6 +39,11 @@ function createNewPet(){
 			petType					:	null,
 		}
 }
+
+/*
+	*	TODO: Replace photo URL field with photo upload to S3
+	*
+	* */
 class CreateAccount extends Component {
 	constructor (props, context) {
 		super(props, context)
@@ -49,6 +54,7 @@ class CreateAccount extends Component {
 			password				:	"",
 			passwordRetype			:	"",
 			selectedCity			:	null,
+			photo					:	"",
 			selectedPropertyType	:	null,
 			createHost				:	false,
 			description				: 	"",
@@ -69,6 +75,7 @@ class CreateAccount extends Component {
 		this.handlePassword = this.handlePassword.bind(this)
 		this.handlePasswordRetype = this.handlePasswordRetype.bind(this)
 		this.handleCityChange = this.handleCityChange.bind(this)
+		this.handlePhotoInput = this.handlePhotoInput.bind(this)
 		this.handlePropertyChange = this.handlePropertyChange.bind(this)
 		this.handlePetChange = this.handlePetChange.bind(this)
 		this.handleHostToggle = this.handleHostToggle.bind(this)
@@ -132,6 +139,12 @@ class CreateAccount extends Component {
 		this.setState({
 			cityRequired : errmsg,
 			selectedCity : payload
+		})
+	}
+	handlePhotoInput = (event, newValue) => {
+		newValue = newValue.trim()
+		this.setState({
+			photo : newValue,
 		})
 	}
 
@@ -236,6 +249,7 @@ class CreateAccount extends Component {
 			password		:	this.state.password,
 			password_retype	:	this.state.passwordRetype,
 			city_id			:	this.state.selectedCity,
+			photo			:	this.state.photo,
 			is_host			:	this.state.createHost,
 			description		:	this.state.description,
 			property_type	:	this.state.selectedPropertyType,
@@ -257,10 +271,13 @@ class CreateAccount extends Component {
 				})	
 			},
 			(error) => {
+				console.log(error)
+				/*
 				this.setState({
 					errResponse: true,
 					msgResponse: error
-				})	
+				})
+				*/
 			});
 	}
 
@@ -353,6 +370,12 @@ class CreateAccount extends Component {
 					handleCityChange={this.handleCityChange}
 					errorText={this.state.cityRequired}
 					selectedCity={this.state.selectedCity}/>
+				<br />
+				<TextField
+					floatingLabelText="Photo URL"
+					name="photo"
+					value={this.state.photo}
+					onChange={this.handlePhotoInput}/>
 				<br />
 				<Toggle 
 					label="Create Host Account"

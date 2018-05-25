@@ -1,5 +1,6 @@
 from flask import request, session, url_for, g
 from flask_api import FlaskAPI, status, exceptions
+from werkzeug.security import check_password_hash
 from constants import CITIES, PROPERTY_TYPES, PET_TYPES
 import sqlite3
 
@@ -48,23 +49,6 @@ def query_db(query, args=(), one=False, insert=False):
         rv = cur.lastrowid
     cur.close()
     return (rv[0] if rv else None) if one else rv
-
-"""
-def login_check:
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    return 'You are not logged in'
-
-def login():
-    if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-
-def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
-"""
 
 def get_host_accounts(city=None, pet_type=None, property_type=None):
     """
@@ -163,7 +147,22 @@ def get_account_pets(account_id):
     else:
         return []
 
-def get_account_bookings(account_id, start_date=None, end_date=None):
+def get_account_photos(account_id):
+    """
+        Generates sql and runs dbquery to retrieve account data for pets owned by user
+        :param      account_id:           unique profile id
+        :type       account_id:           int
+        :return     array of photo objects
+        :rtype      array
+    """
+    if account_id is not None:
+        sql = "SELECT * FROM photos WHERE account_id=?"
+        args = (account_id,)
+        photos = query_db(sql, args)
+        return photos
+    else:
+        return []
+def get_account_bookings(account_id, unconfirmed=False, start_date=None, end_date=None):
     """
         Generates sql and runs dbquery to retrieve booking data by account ID with optional timeframe arguments
         :param      account_id:      unique profile id
@@ -175,7 +174,9 @@ def get_account_bookings(account_id, start_date=None, end_date=None):
         :return     array of booking dicts
         :rtype      array
     """
-    sql = "SELECT * FROM bookings WHERE host_id=? OR client_id=?"
+    sql = "SELECT * FROM bookings WHERE host_id=? OR client_id=? "
+    if unconfirmed:
+        sql += "AND confirmed=0"
     
     args = account_id, account_id,
 
@@ -207,8 +208,16 @@ def format_accounts(accounts):
     """
     if accounts is not None:
         for account in accounts:
-            account['city'] = CITIES[account['city_id']] 
-            account['property_type'] = PROPERTY_TYPES[account['property_type']]
+            account['city'] = CITIES[account['city_id']]
+            img_sql = 'SELECT img_path FROM photos WHERE account_id=?'
+            images = query_db(img_sql, (account['id'],))
+            images_array = []
+            if images is not None:
+                for i in images:
+                    images_array.append(i['img_path'])
+            account['images'] = images_array
+            if account['is_host'] == 1:
+                account['property_type'] = PROPERTY_TYPES[account['property_type']]
         return accounts
     return []
 

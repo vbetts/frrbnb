@@ -54,6 +54,7 @@ CREATE TABLE accounts(
 	is_host INTEGER DEFAULT 0,
 	property_type INTEGER DEFAULT NULL,
 	suspended INTEGER DEFAULT 0,
+	last_login INTEGER NOT NULL,
 	FOREIGN KEY(city_id) REFERENCES cities(id),
 	FOREIGN KEY(property_type) REFERENCES property_types(id)
 );
@@ -69,6 +70,7 @@ INSERT INTO accounts VALUES (
 	null,
 	1,
 	1,
+	0,
 	0
 );
 ---Pet types to host
@@ -132,6 +134,7 @@ CREATE TABLE bookings(
 	to_date TEXT NOT NULL,
 	creation_timestamp INTEGER NOT NULL,
 	confirmed INTEGER DEFAULT 0,
+	confirmed_timestamp INTEGER DEFAULT NULL,
 	notes TEXT DEFAULT NULL,
 	FOREIGN KEY(host_id) REFERENCES accounts(id),
 	FOREIGN KEY(client_id) REFERENCES accounts(id)

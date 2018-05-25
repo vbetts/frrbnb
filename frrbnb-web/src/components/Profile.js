@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {FETCH_PATH} from '../config/fetch';
 import ResponseMsg from './ResponseMsg';
-//import Paper from 'material-ui/Paper';
-//import PropTypes from 'prop-types';
-//import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 
 class Profile extends Component {

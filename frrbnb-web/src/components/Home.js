@@ -71,7 +71,8 @@ class Home extends Component {
 						city={account.city} 
 						property_type={account.property_type} 
 						name={account.name} 
-						description={account.description}/>
+						description={account.description}
+						images={account.images}/>
 	);
     return (
 		<div>
