@@ -19,15 +19,14 @@ const style = {
 		border: '1px solid rgb(219, 219, 211)', 
 		width: 284,
 		height: 142,
-		overflow: 'scroll',
 		marginBottom: 8
 	},
 	imgStyle : {
-		height: 142,
+		height: '100%',
 	}
 };
 
-const DESC_LENGTH = 150
+const DESC_LENGTH = 100
 
 class AccountCard extends Component {
 	render(){

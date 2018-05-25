@@ -72,6 +72,8 @@ main {
 .description {
 	margin-top: 8px;
 	display: block;
+	height: 85px;
+	overflow: auto;
 	text-align: justify;
 	color: rgba(0, 83, 94, 1);
 }
