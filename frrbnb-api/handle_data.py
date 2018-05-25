@@ -90,6 +90,8 @@ def get_account_by_id(account_id):
         sql = "SELECT * FROM accounts WHERE accounts.id=?"
         args = (account_id,)
         account = query_db(sql, args, True, False)
+        if account is None:
+            return None
         account = [account,]
         formatted = format_accounts(account)
         return formatted[0]
@@ -108,6 +110,8 @@ def get_account_by_email(email):
         sql = "SELECT * FROM accounts WHERE accounts.email=?"
         args = (email,)
         account = query_db(sql, args, True, False)
+        if account is None:
+            return None
         account = [account,]
         formatted = format_accounts(account)
         return formatted[0]

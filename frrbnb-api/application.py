@@ -106,6 +106,8 @@ def profile():
     if data is None:
         return {}
     account_data = get_account_by_id(data["account_id"])
+    if account_data is None:
+        return {"error": True, "messages": "No such account"}
     host_pets = get_host_pets(data["account_id"])
     account_pets = get_account_pets(data["account_id"])
     account_bookings = get_account_bookings(data["account_id"])
@@ -175,7 +177,7 @@ def login():
 
     logout()
     return {"errResponse"           : True,
-            "msgResponse"           : "There was an error. You have been logged out.",
+            "msgResponse"           : "No account matching that email address.",
             "loggedIn"              : False,
             "loggedInUsername"      : None,
             "loggedInId"            : None,

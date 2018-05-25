@@ -7,6 +7,7 @@ class CitySelect extends Component {
 	render(){
 		return(
 			<SelectField
+				style={this.props.style}
 				floatingLabelText="City"
 				onChange={(e, key, payload)=>this.props.handleCityChange(e, key, payload, {selectedCity : payload})}
 				errorText={this.props.errorText}

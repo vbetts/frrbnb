@@ -42,7 +42,9 @@ class Header extends Component {
 					open={this.props.open} 
 					handleClose={this.props.closeModal}
 					handleOpen={this.props.openModal}
-					handleLogin={this.props.handleLogin}/>	
+					handleLogin={this.props.handleLogin}
+					error={this.props.login.errResponse}
+					msg={this.props.login.msgResponse}/>	
 		}
 		return (
 			<div className="header">

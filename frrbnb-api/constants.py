@@ -1,8 +1,8 @@
 CITIES = {
-    0 : "victoria",
-    1 : "sooke",
-    2 : "nanaimo",
-    3 : "tofino"
+    0 : "Victoria",
+    1 : "Sooke",
+    2 : "Nanaimo",
+    3 : "Tofino"
 }
 
 PROPERTY_TYPES = {

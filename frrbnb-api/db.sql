@@ -67,7 +67,7 @@ INSERT INTO accounts VALUES (
 	0,
 	null,
 	null,
-	null,
+	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam iaculis justo quis ante blandit, eu dictum eros dignissim. Vestibulum sed ligula sodales, vulputate mauris vitae, consectetur lectus. Nam lobortis sed eros at scelerisque. Vestibulum at tellus aliquam magna tempus tristique. Donec a pharetra libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pulvinar lobortis ipsum vitae sodales.',
 	1,
 	1,
 	0,

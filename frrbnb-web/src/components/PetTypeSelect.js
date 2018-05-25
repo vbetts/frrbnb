@@ -7,6 +7,7 @@ class PetTypeSelect extends Component {
 	render(){
 		return(
 			<SelectField
+				style={this.props.style}
 				floatingLabelText="Pet Type"
 				onChange={(e, key, payload)=>this.props.handlePetChange(e, this.props.petIndex, payload, {petType : payload})}
 				value={this.props.petType}>

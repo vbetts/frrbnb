@@ -76,12 +76,14 @@ class Home extends Component {
 	);
     return (
 		<div>
-		<Search
-			handleSearch={this.handleSearch}
-			petType={this.state.petType}
-			propertyType={this.state.propertyType}
-			selectedCity={this.state.selectedCity} />
-		<div className="flexWrap">{accountJSX}</div>
+			<div className="center">
+				<Search	
+					handleSearch={this.handleSearch}
+					petType={this.state.petType}
+					propertyType={this.state.propertyType}
+					selectedCity={this.state.selectedCity} />
+			</div>
+			<div className="flexWrap">{accountJSX}</div>
 		</div>
     );
   }

@@ -68,7 +68,9 @@ class App extends Component {
 		.then(
 			(result) => {
 				this.setState({login: result})
-				this.closeModal()
+				if (!result.errResponse){
+					this.closeModal()
+				}
 			},
 			(error) => {
 				console.log(error)

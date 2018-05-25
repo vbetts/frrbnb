@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ResponseMsg from './ResponseMsg';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -11,7 +12,7 @@ class Login extends Component {
 		super(props, context)
 		this.state={
 			emailAddress	:	"",
-			password		:	""
+			password		:	"",
 		}
 
 		this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -51,6 +52,9 @@ class Login extends Component {
 				actions={actions}
 				modal={true}
 				open={this.props.open}>
+				<div>
+					<ResponseMsg error={this.props.error} msg={this.props.msg} />
+				</div>
 				<TextField 
 					floatingLabelText="E-mail Address"
 					name="email"

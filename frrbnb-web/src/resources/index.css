@@ -50,8 +50,30 @@ main {
 	text-transform: capitalize;
 }
 
+.property, .city {
+	color: rgba(0, 83, 94, 0.6);
+	font-size: 75%;
+}
+
+.name {
+	color: rgba(0, 83, 94, 1);
+	font-size: 115%;
+}
+
+.cardHeader {
+	display: block;
+	overflow: auto;
+}
+
 .description::first-letter {
 	text-transform: uppercase;
+}
+
+.description {
+	margin-top: 8px;
+	display: block;
+	text-align: justify;
+	color: rgba(0, 83, 94, 1);
 }
 
 .flexWrap {
