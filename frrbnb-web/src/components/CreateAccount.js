@@ -32,7 +32,7 @@ const styles = {
 
 const REQUIRED_FIELD_MSG = "This field is required"
 
-function createNewPet(){
+export function createNewPet(){
 	return  {
 			petPrice				:	"0",
 			petCount				:	null,
@@ -101,7 +101,6 @@ class CreateAccount extends Component {
 	}
 
 	handleNameInput = (event, newValue) => {
-		newValue = newValue.trim()
 		let errmsg = this.checkErrMsg(newValue)
 		this.setState({
 			name : newValue,
@@ -176,7 +175,6 @@ class CreateAccount extends Component {
 	}
 
 	handleDescInput = (event, newValue) => {
-		newValue = newValue.trim()
 		this.setState({
 			description : newValue
 		})
@@ -244,14 +242,14 @@ class CreateAccount extends Component {
 
 	submitForm = () => {
 		let formdata = {
-			email			:	this.state.emailAddress,
-			name			:	this.state.name,
+			email			:	this.state.emailAddress.trim(),
+			name			:	this.state.name.trim(),
 			password		:	this.state.password,
 			password_retype	:	this.state.passwordRetype,
 			city_id			:	this.state.selectedCity,
-			photo			:	this.state.photo,
+			photo			:	this.state.photo.trim(),
 			is_host			:	this.state.createHost,
-			description		:	this.state.description,
+			description		:	this.state.description.trim(),
 			property_type	:	this.state.selectedPropertyType,
 			pets			:	this.state.pets
 		}

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {FETCH_PATH} from '../config/fetch';
 import ResponseMsg from './ResponseMsg';
-import PropTypes from 'prop-types';
-
+import BookingForm from './BookingForm';
 
 class Profile extends Component {
 	constructor (props, context){
@@ -39,6 +38,7 @@ class Profile extends Component {
 	render(){
 		return (<div>
 				<ResponseMsg error={this.state.errResponse} msg={this.state.msgResponse} />
+				<BookingForm />
 			</div>);
 	}
 }

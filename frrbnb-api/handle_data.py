@@ -185,6 +185,8 @@ def get_account_bookings(account_id, unconfirmed=False, start_date=None, end_dat
     args = account_id, account_id,
 
     bookings = query_db(sql, args)
+    if len(bookings) == 0:
+        return None
 
     return bookings
     
@@ -192,7 +194,9 @@ def get_account_bookings(account_id, unconfirmed=False, start_date=None, end_dat
 def format_accounts(accounts):
     """
         Formats account fields for return to the client side
-        :param      accounts:   list of accounts returned by get_host_accounts or get_account_by_id
+        :param      accounts:   list of accounts returned by    if len(bookings) == 0:
+        return None
+        get_host_accounts or get_account_by_id
         :type       accounts:   array of dicts
                         keys:   
                             id                  int 

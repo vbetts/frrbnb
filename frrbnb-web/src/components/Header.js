@@ -57,11 +57,12 @@ class Header extends Component {
 		let menu = null
 		let booking_alert = this.props.login.bookingChanges ? <Pets color="rgb(0, 188, 212)"/> : null
 		if (this.props.login.loggedIn){
-			login = (<MenuItem primaryText={btn_labels.logged_in.login}></MenuItem>)
+			let booking_label = btn_labels.logged_in.booking + booking_alert
+			login = (<MenuItem primaryText={btn_labels.logged_in.login} onClick={this.props.handleLogout}></MenuItem>)
 			account = (<Link to={linkto.account}><MenuItem primaryText={btn_labels.logged_in.account}></MenuItem></Link>)
-			bookings=(<Link to={linkto.bookings}><MenuItem primaryText={btn_labels.logged_in.bookings}></MenuItem></Link>)
+			bookings=(<Link to={linkto.bookings}><MenuItem primaryText={booking_label}></MenuItem></Link>)
 		} else {
-			login = (<MenuItem primaryText={btn_labels.logged_out.login}></MenuItem>)
+			login = (<MenuItem primaryText={btn_labels.logged_out.login} onClick={this.props.openModal}></MenuItem>)
 			account = (<Link to={linkto.create}><MenuItem primaryText={btn_labels.logged_out.account}></MenuItem></Link>)
 		}
 
@@ -106,7 +107,7 @@ class Header extends Component {
 						<RaisedButton label={btn_labels.logged_in.account} style={style}/>
 					</Link>
 			booking_btn = <Link to={linkto.bookings}>
-						<RaisedButton label={btn_labels.logged_in.bookings} labelPosition="before" icon={booking_alert} style={style}/>
+						<RaisedButton label={btn_labels.logged_in.booking} labelPosition="before" icon={booking_alert} style={style}/>
 					</Link>
 		} else {
 			login_btn = <RaisedButton label={btn_labels.logged_out.login} onClick={this.props.openModal}/>

@@ -8,7 +8,7 @@ class PetCountSelect extends Component {
 		return(
 			<SelectField
 				floatingLabelText="Pet Count"
-				onChange={this.props.handlePetChange}
+				onChange={(e, key, payload)=>this.props.handlePetChange(e, this.props.petIndex, payload, {petCount : payload})}
 				value={this.props.petCount}>
 				<MenuItem value={0} primaryText={0} />
 				<MenuItem value={1} primaryText={1} />

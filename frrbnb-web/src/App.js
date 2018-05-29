@@ -11,7 +11,7 @@ class App extends Component {
 							loggedIn			:	false,
 							loggedInUsername	:	null,
 							loggedInId			:	null,
-							bookingChanges		: 	false,
+							bookingChanges		: 	null,
 							errResponse			: 	false,
 							msgResponse			:	""
 						},

@@ -53,7 +53,7 @@ def create_account():
     account_id = query_db(sql, args, False, True)
 
     if account_id:
-        if data["photo"] is not None:
+        if data["photo"] is not None and data["photo"] != "":
             photo_sql = "INSERT INTO photos(account_id, img_path) values(?, ?)"
             photo_id = query_db(photo_sql, (account_id, data["photo"]), False, True)
         if is_host == False:
