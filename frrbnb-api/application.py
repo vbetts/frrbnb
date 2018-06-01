@@ -107,18 +107,23 @@ def profile():
         return {}
     account_data = get_account_by_id(data["account_id"])
     if account_data is None:
-        return {"error": True, "messages": "No such account"}
+        return {"errResponse": True, "msgResponse": "No such account"}
     host_pets = get_host_pets(data["account_id"])
     account_pets = get_account_pets(data["account_id"])
     account_bookings = get_account_bookings(data["account_id"])
     account_photos = get_account_photos(data["account_id"])
-    return {"error": False, 
-            "messages": "", 
+    if "userid" in session:
+        loggedInId = session["userid"]
+    else:
+        loggedInId = None
+
+    return {"errResponse": False, 
+            "msgResponse": "", 
             "account_data": account_data, 
             "host_pets": host_pets, 
             "account_pets": account_pets,
-            "account_photos": account_photos,
-            "bookings": account_bookings}
+            "bookings": account_bookings,
+            "loggedInId": loggedInId}
 
 @application.route('/login', methods=['POST', 'GET', 'OPTIONS'])
 def login():

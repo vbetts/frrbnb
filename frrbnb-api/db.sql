@@ -59,6 +59,7 @@ CREATE TABLE accounts(
 	FOREIGN KEY(property_type) REFERENCES property_types(id)
 );
 
+/*
 INSERT INTO accounts VALUES (
 	NULL,
 	'toribetts@gmail.com',
@@ -73,6 +74,8 @@ INSERT INTO accounts VALUES (
 	0,
 	0
 );
+*/
+
 ---Pet types to host
 CREATE TABLE host_pet_types(
 	host_pet_id INTEGER PRIMARY KEY,

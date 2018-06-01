@@ -53,7 +53,6 @@ class BookingForm extends Component {
 	}
 
 	handlePetChange = (e, key, payload, update) => {
-		console.log(update)
 		let petsArray = this.state.pets.map(
 			(pet, index) => {
 				if (index === key){
@@ -65,7 +64,7 @@ class BookingForm extends Component {
 		this.setState({pets : petsArray})
 	}
 	submitBookingRequest = (e) => {
-		console.log("submit booking")
+		alert("Coming Soon!")
 	}
 
 	addPet = () => {
@@ -127,6 +126,7 @@ class BookingForm extends Component {
 			label="Request Booking"
 			primary={true}
 			onClick={this.handleOpen}
+			disabled={this.props.disabled}
 			/>
 			<Dialog
 				title="Booking Request"
@@ -169,11 +169,12 @@ class BookingForm extends Component {
 	}
 }
 
-/*
+
 BookingForm.propTypes = {
-	userId		:	PropTypes.number.isRequired,
-	hostId	 	:	PropTypes.number.isRequired,
-	bookings	:	PropTypes.array
+	userId		:	PropTypes.number,
+	hostId	 	:	PropTypes.number,
+	bookings	:	PropTypes.array,
+	disabled	:	PropTypes.bool.isRequired
 }
-*/
+
 export default BookingForm

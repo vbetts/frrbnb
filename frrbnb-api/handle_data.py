@@ -217,12 +217,7 @@ def format_accounts(accounts):
     if accounts is not None:
         for account in accounts:
             account['city'] = CITIES[account['city_id']]
-            img_sql = 'SELECT img_path FROM photos WHERE account_id=?'
-            images = query_db(img_sql, (account['id'],))
-            images_array = []
-            if images is not None:
-                for i in images:
-                    images_array.append(i['img_path'])
+            images_array = get_account_photos(account['id'])
             account['images'] = images_array
             if account['is_host'] == 1:
                 account['property_type'] = PROPERTY_TYPES[account['property_type']]

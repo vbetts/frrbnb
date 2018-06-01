@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
+import Image from './Image';
 import PropTypes from 'prop-types';
-import DEFAULT_IMG from '../resources/images/default_img.png';
 import { Link } from 'react-router-dom';
 
 const style = {
@@ -17,8 +17,6 @@ const style = {
 	imgContainer: {
 		backgroundColor: 'rgba(0, 188, 212, 0.1)',
 		border: '1px solid rgb(219, 219, 211)', 
-		width: 284,
-		height: 142,
 		marginBottom: 8
 	},
 	imgStyle : {
@@ -30,10 +28,6 @@ const DESC_LENGTH = 100
 
 class AccountCard extends Component {
 	render(){
-		let img_path = DEFAULT_IMG
-		if (this.props.images.length > 0){
-			img_path = this.props.images[0]
-		}
 		let description = this.props.description
 
 		if (description.length > DESC_LENGTH){
@@ -43,9 +37,13 @@ class AccountCard extends Component {
 		return (
 		<Link to={"/profile/"+this.props.account_id} >
 			<Paper style={style.cardStyle} zDepth={2}>
-				<div className="center" style={style.imgContainer}>
-					<img src={img_path} style={style.imgStyle} alt=""/>
-				</div>
+				<Image 
+					altText=""
+					imageSrc={this.props.images[0]}
+					containerHeight={142}
+					containerWidth={284}
+					containerStyle={style.imgContainer}
+					imageStyle={style.imgStyle} />
 				<div className="cardHeader">
 					<div className="name">{this.props.name}</div>
 					<div>

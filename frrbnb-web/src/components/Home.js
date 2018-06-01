@@ -52,7 +52,6 @@ class Home extends Component {
 		  .then(res => res.json())
 		  .then(
 			(result) => {
-				console.log(result.accounts)
 				this.setState({
 					accountlist	:	result.accounts
 				})
