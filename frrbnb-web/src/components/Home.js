@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AccountCard from './AccountCard';
 import Search from './Search';
+import RaisedButton from 'material-ui/RaisedButton';
 import {FETCH_PATH} from '../config/fetch.js';
 
 class Home extends Component {
@@ -47,7 +48,8 @@ class Home extends Component {
 			}
 		 )	
 	}
-	componentDidMount(){
+
+	fetchAllAccounts = () => {
 		fetch(FETCH_PATH)
 		  .then(res => res.json())
 		  .then(
@@ -63,6 +65,19 @@ class Home extends Component {
 				console.log(error)
 			}
 		 )	
+	
+	}
+
+	componentDidMount(){
+		this.fetchAllAccounts()
+	}
+	clearSearch = () => {
+		this.setState({
+			petType			:	null,
+			selectedCity	:	null,
+			propertyType	:	null
+		})
+		this.fetchAllAccounts()
 	}
   render() {
 	let accountJSX = this.state.accountlist.map((account, index) =>
@@ -82,6 +97,7 @@ class Home extends Component {
 					petType={this.state.petType}
 					propertyType={this.state.propertyType}
 					selectedCity={this.state.selectedCity} />
+				<RaisedButton label="Clear Search" primary={true} onClick={this.clearSearch}/>
 			</div>
 			<div className="flexWrap">{accountJSX}</div>
 		</div>
